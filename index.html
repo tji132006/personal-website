@@ -188,6 +188,8 @@
 	//1.翻面控制
 	function turn(elem){
 		var cls = elem.className;
+
+		var n = elem.id.split('_')[1];//拿索引编号
 		if (/photo_front/.test(cls)){//正则表达式检测是否传进来"photo photo_center photo_front"这一串表达式。上面的this指的是他所在当前的div所有class。//
 			cls = cls.replace(/photo_front/, 'photo_back')
 			//如果当前海报是正面，我们就让导航加上一个i_back
