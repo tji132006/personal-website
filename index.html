@@ -154,6 +154,14 @@
 		    top: 200px;
 		    background-color: #555 /* Light Black */
 		}
+
+		.nav .i_current{
+			left: 0;
+		}
+
+		.nav .i_back{
+			left: -80px;
+		}
 	</style>
 </head>
 <body onselectstart="return false;">
@@ -182,8 +190,12 @@
 		var cls = elem.className;
 		if (/photo_front/.test(cls)){//正则表达式检测是否传进来"photo photo_center photo_front"这一串表达式。上面的this指的是他所在当前的div所有class。//
 			cls = cls.replace(/photo_front/, 'photo_back')
+			//如果当前海报是正面，我们就让导航加上一个i_back
+			g('#nav_'+n).className += ' i_back';
 		} else {
 			cls = cls.replace(/photo_back/, 'photo_front')
+			//如果当前已经是背面，就去掉i_back
+			g('#nav_'+n).className = g('#nav_'+n).className.replace(/\s*i_back\s*/, ' ');
 		}
 
 		return elem.className = cls;
@@ -310,7 +322,13 @@ console.log(photos_left.length, photos_right.length);
 			// photo.style['-webkit-transform'] = 'rotate('+ random([0, 20]) + 'deg)';
 		}	
 		
-		
+		//去掉i_current标签
+		var navs = g('.i');
+		for(var s = 0; s < navs.length; s++){
+			navs[s].className = navs[s].className.replace(/\s*i_current\s*/, ' ');
+		}
+		//n是谁，就给谁加一个i_current
+		g('#nav_'+n).className += ' i_current ';
 	}
 
 
