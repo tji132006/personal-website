@@ -116,6 +116,44 @@
 		.photo_back .photo-wrap{
 			-webkit-transform: rotateY(180deg);
 		}
+
+		/*控制按钮的样式*/
+		.nav .i{
+			position: absolute; /* Position them relative to the browser window */
+		    left: -80px; /* Position them outside of the screen */
+		    transition: 0.3s; /* Add transition on hover */
+		    padding: 15px; /* 15px padding */
+		    width: 100px; /* Set a specific width */
+		    text-decoration: none; /* Remove underline */
+		    font-size: 20px; /* Increase font size */
+		    color: white; /* White text color */
+		    border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
+		    background-color: #fff;
+		}
+		.nav .i:hover{
+			left:0;
+			cursor: pointer;
+		}
+
+		#nav_0{
+			top: 20px;
+    		background-color: #4CAF50;
+		}
+
+		#nav_1 {
+		    top: 80px;
+		    background-color: #2196F3; /* Blue */
+		}
+
+		#nav_2 {
+		    top: 140px;
+		    background-color: #f44336; /* Red */
+		}
+
+		#nav_3 {
+		    top: 200px;
+		    background-color: #555 /* Light Black */
+		}
 	</style>
 </head>
 <body onselectstart="return false;">
@@ -162,6 +200,10 @@
 	function addPhotos(){
 		var template = g('#wrap').innerHTML; //抓取#wrap包含的所有字符串
 		var html = [];
+
+		//添加控制条
+		var nav = [];
+
 		for(s in data){
 			var _html = template
 							.replace('{{index}}', s)
@@ -169,7 +211,12 @@
 							.replace('{{caption}}', data[s].caption)
 							.replace('{{desc}}', data[s].desc)
 			html.push(_html);
+
+			nav.push('<span id = "nav_'+s+'" onclick = "turn(g(\'#photo_'+s+'\'))" class = "i">&nbsp;</span>');
 		} 
+		//把得到的所有span都存到div这个标签里
+		html.push('<div class="nav">'+nav.join('')+'</div>');
+
 		g('#wrap').innerHTML = html.join('');
 
 		rsort(random([0, data.length - 1]));
@@ -210,7 +257,6 @@
 		var _photo = g('.photo');//存储所有海报内容
 		var photos = [];
 
-		var nav = [];
 
 		for(s = 0; s < _photo.length; s++){
 			_photo[s].className = _photo[s].className.replace(/\s*photo_center\s*/, ' ');//把所有的元素中原有的photo_center样式用空格替换，也就是删除它。
@@ -263,6 +309,7 @@ console.log(photos_left.length, photos_right.length);
 
 			// photo.style['-webkit-transform'] = 'rotate('+ random([0, 20]) + 'deg)';
 		}	
+		
 		
 	}
 
