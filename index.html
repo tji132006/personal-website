@@ -278,6 +278,15 @@
 
 		for(s = 0; s < _photo.length; s++){
 			_photo[s].className = _photo[s].className.replace(/\s*photo_center\s*/, ' ');//把所有的元素中原有的photo_center样式用空格替换，也就是删除它。
+			_photo[s].className = _photo[s].className.replace(/\s*photo_front\s*/, ' ');
+			_photo[s].className = _photo[s].className.replace(/\s*photo_back\s*/, ' ');
+			
+			_photo[s].className += ' photo_front';
+
+			_photo[s].style.left = '';
+			_photo[s].style.top = '';
+
+			_photo[s].style['webkit-transform'] = 'rotate(0deg)';
 
 			photos.push(_photo[s]);
 		}
