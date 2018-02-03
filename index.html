@@ -18,16 +18,16 @@
 		.content{
 			
 			height: 100%;
-			background-image: url("timg.jpg");
+			background-image: url("HKmain.jpg");
 			background-position: center;
     		background-repeat: no-repeat;
     		background-size: cover;	
 		}
 
 		.wrap{
-			background-color: blue;
+			/*background-color: blue;*/
 			width: 100%;
-			height: 80%;
+			height: 90%;
 			/*centered both H and V w/ unknow width*/
 			position: absolute;
 			top: 50%;
@@ -40,28 +40,29 @@
 		/*海报样式*/
 		.photo{
 			width: 260px;
-			height: 320px;
+			height: 350px;
 			position: absolute;
 			z-index: 1;
 			box-shadow: 0 0 1px rgba(0,0,0, .01);
-
+			/*选中海报后，其他海报动起来*/
+			-webkit-transition: all 0.8s;
 		}
 		.photo .side{
-			width: 100%;
-			height: 100%;
-			background-color: #eee;
+			/*width: 100%;
+			height: 100%;*/
+			/*background-color: green;*/
 			position: absolute;
 			top: 0;
 			right: 0;
-			padding: 20px;
+			/*padding: 20px;*/
 
 			box-sizing: border-box;
 		}
 		.photo .side-front{/*display: none;*/}
 		.photo .side-front .image{
 			width: 100%;
-			height: 250px;
-			line-height: 250px;
+			height: 350px;
+			line-height: 350px;
 			overflow: hidden;
 		}
 
@@ -73,8 +74,36 @@
 			font-size: 16px;
 			line-height: 50px;
 		}
-		.photo .side-back{
+		#photo_0 .side-back{
 			/*display: none;*/
+			background-color: red;
+			width: 500px;
+			height: 300px;
+		}
+
+		#photo_0 .side-back{
+			/*display: none;*/
+			background-color: red;
+			width: 180px;
+			height: 300px;
+		}
+		#photo_1 .side-back{
+			/*display: none;*/
+			background-color: red;
+			width: 250px;
+			height: 300px;
+		}
+		#photo_2 .side-back{
+			/*display: none;*/
+			background-color: red;
+			width: 450px;
+			height: 300px;
+		}
+		#photo_3 .side-back{
+			/*display: none;*/
+			background-color: red;
+			width: 210px;
+			height: 300px;
 		}
 		.photo .side-back .desc{
 			color: #666;
@@ -85,12 +114,12 @@
 		/*当前选中的海报样式*/
 		.photo_center{
 			left: 50%;
-			top: 50%;
-			margin: -160px 0 0 -130px;
+			top: 55%;
+			margin: -170px 0 0 -143px;
 			z-index: 999;
 		}
 
-		/*负责照片旋转*/
+		/*负责照片翻面*/
 		.photo-wrap{
 			position: absolute;
 			width: 100%;
@@ -117,6 +146,23 @@
 			-webkit-transform: rotateY(180deg);
 		}
 
+		#photo_0{
+			width: 180px;
+		}
+		/*#photo_0 > .side-back{
+			width: 500px;
+			height: 300px;
+			background-color: green;
+		}*/
+		#photo_1{
+			width: 250px;
+		}
+		#photo_2{
+			width: 450px;
+		}
+		#photo_3{
+			width: 210px;
+		}
 		/*控制按钮的样式*/
 		.nav .i{
 			position: absolute; /* Position them relative to the browser window */
@@ -174,9 +220,9 @@
 						<p class="image">
 							<img src="photo/{{img}}">
 						</p>
-						<p class="caption">{{caption}}</p>
+						<!-- <p class="caption">{{caption}}</p> -->
 					</div>
-					<div class="side side-back">
+					<div class="side side-back " id="side-back_{{index}}">
 						<p class="desc">{{desc}}</p>
 					</div>
 				</div>
@@ -195,11 +241,11 @@
 			return rsort(n);
 		}
 		if (/photo_front/.test(cls)){//正则表达式检测是否传进来"photo photo_center photo_front"这一串表达式。上面的this指的是他所在当前的div所有class。//
-			cls = cls.replace(/photo_front/, 'photo_back')
+			cls = cls.replace(/photo_front/, 'photo_back');
 			//如果当前海报是正面，我们就让导航加上一个i_back
 			g('#nav_'+n).className += ' i_back';
 		} else {
-			cls = cls.replace(/photo_back/, 'photo_front')
+			cls = cls.replace(/photo_back/, 'photo_front');
 			//如果当前已经是背面，就去掉i_back
 			g('#nav_'+n).className = g('#nav_'+n).className.replace(/\s*i_back\s*/, ' ');
 		}
@@ -285,16 +331,42 @@
 
 			_photo[s].style.left = '';
 			_photo[s].style.top = '';
+			
 
-			_photo[s].style['webkit-transform'] = 'rotate(0deg)';
+			_photo[s].style['-webkit-transform'] = 'rotate(0deg)';
 
 			photos.push(_photo[s]);
 		}
 
+		
 		var photo_center = g('#photo_' + n);
 		photo_center.className += ' photo_center';
 
 		photo_center = photos.splice(n,1)[0];
+
+		//添加back style 
+		// var photo_cente = g('#photo_' + n);
+		// photo_cente.className += ' photo_cente';
+
+		// photo_cente = photos.splice(n,1)[0];
+		// var _photo = g('.photo');//存储所有海报内容
+		// var photos = [];
+
+		// for(s = 0; s < _photo.length; s++){
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_center\s*/, ' ');//把所有的元素中原有的photo_center样式用空格替换，也就是删除它。
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_front\s*/, ' ');
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_back\s*/, ' ');
+			
+		// 	_photo[s].className += ' photo_front';
+
+		// 	_photo[s].style.left = '';
+		// 	_photo[s].style.top = '';
+			
+
+		// 	_photo[s].style['-webkit-transform'] = 'rotate(0deg)';
+
+		// 	photos.push(_photo[s]);
+		// }
 
 		//分左右区域
 		var photos_left = photos.splice(0, Math.ceil(photos.length/2));
@@ -307,30 +379,32 @@ console.log(photos_left.length, photos_right.length);
 			var photo = photos_left[s];
 
 			if(photo = photos_left[0]){
-				photo.style.left = 150 + 'px';
-				photo.style.top = 200 + 'px';
+				photo.style.left = 90 + 'px';
+				photo.style.top = 320 + 'px';
+				photo.style['-webkit-transform'] = 'rotate('+ random([30, 45]) + 'deg)';
 			} 
 			if(photo = photos_left[1]){
-				photo.style.left = 388 + 'px';
+				photo.style.left = 358 + 'px';
 				photo.style.top = 53 + 'px';
+				photo.style['-webkit-transform'] = 'rotate('+ random([-20, -5]) + 'deg)';
 			}
 
-			//photo.style['-webkit-transform'] = 'rotate('+ random([0, 20]) + 'deg)';
+			// photo.style.left = random(ranges.left.x) + 'px';
+		 // 	photo.style.top = random(ranges.left.y) + 'px';
+			// photo.style['-webkit-transform'] = 'rotate('+ random([0, 20]) + 'deg)';
 		}
 
 		for(s in photos_right){
 			var photo = photos_right[s];
 
-			if(photo = photos_right[0]){
-				photo.style.right = 57 + 'px';
-				photo.style.top = 66 + 'px';
-			} 
-			if(photo = photos_right[1]){
-				photo.style.right = 157 + 'px';
-				photo.style.top = 216 + 'px';
-			}
+			
+				photo.style.left = 1100 + 'px';
+				photo.style.top = 266 + 'px';
+			 photo.style['-webkit-transform'] = 'rotate('+ random([-20, 20]) + 'deg)';
+			
 
-
+			// photo.style.left = random(ranges.right.x) + 'px';
+		 // 	photo.style.top = random(ranges.right.y) + 'px';
 			// photo.style.left = random(ranges.right.x) + 'px';
 			// photo.style.top = random(ranges.right.y) + 'px';
 
@@ -341,6 +415,7 @@ console.log(photos_left.length, photos_right.length);
 		var navs = g('.i');
 		for(var s = 0; s < navs.length; s++){
 			navs[s].className = navs[s].className.replace(/\s*i_current\s*/, ' ');
+			navs[s].className = navs[s].className.replace(/\s*i_back\s*/, ' ');
 		}
 		//n是谁，就给谁加一个i_current
 		g('#nav_'+n).className += ' i_current ';
