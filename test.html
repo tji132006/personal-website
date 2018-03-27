@@ -242,11 +242,13 @@
 </head>
 <body onselectstart="return false;">
 	<div class="content">
-		<div id="myModal" class="modal">
-		</div>
 		<!-- 2.改写视图，为模板字符串 -->
 		<div class="wrap" id="wrap">
-			
+			<div id="myModal{{index}}" class="modal">
+			<!-- The Close Button -->
+  <span class="close">&times;</span>
+
+
 				<div class="photo photo_front" onclick="turn(this)" id="photo_{{index}}">
 					<div class="photo-wrap">
 						<div class="side side-front">
@@ -260,6 +262,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 <script type="text/javascript" src="./photo/data.js"></script>
@@ -300,30 +303,60 @@
 
 		//添加控制条
 		var nav = [];
-//这个现在管的是modal的index而不是之前的photo的index
+
 		for(s in data){
-			var _html = template
-							.replace('{{index}}', s)
-							.replace('{{img}}', data[s].img)
-							.replace('{{caption}}', data[s].caption)
-							.replace('{{desc}}', data[s].desc)
-			html.push(_html);
+			var _html = template.replace('{{index}}', s)//已经
+			html.push(_html);	
 
-
-			nav.push('<span id = "nav_'+s+'" onclick = "turn(g(\'#photo_'+s+'\'))" class = "i">&nbsp;</span>');
+			nav.push('<span id = "nav_'+s+'" onclick = "turn(g(\'#photo_'+s+'\'))" class = "i">&nbsp;</span>');	
 		} 
-		//把得到的所有span都存到div这个标签里
-		html.push('<div class="nav">'+nav.join('')+'</div>');
 
+		html.push('<div class="nav">'+nav.join('')+'</div>');
 		g('#wrap').innerHTML = html.join('');
+
+
+		//add photo_index
+		var temp = g('#myModal0').innerHTML;
+		var htm=[];
+				var _htm = temp.replace('{{index}}', 0)
+							   .replace('{{img}}', data[0].img)
+				htm.push(_htm)
+				
+		g('#myModal0').innerHTML = htm.join('');
+
+		var temp = g('#myModal1').innerHTML;
+		var htm=[];
+				var _htm = temp.replace('{{index}}', 1)
+							   .replace('{{img}}', data[1].img)
+				htm.push(_htm)
+				
+		g('#myModal1').innerHTML = htm.join('');
+
+		var temp = g('#myModal2').innerHTML;
+		var htm=[];
+				var _htm = temp.replace('{{index}}', 2)
+							   .replace('{{img}}', data[2].img)
+				htm.push(_htm)
+				
+		g('#myModal2').innerHTML = htm.join('');
+
+		var temp = g('#myModal3').innerHTML;
+		var htm=[];
+				var _htm = temp.replace('{{index}}', 3)
+							   .replace('{{img}}', data[3].img)
+				htm.push(_htm)
+				
+		g('#myModal3').innerHTML = htm.join('');
+		//end of add photo_index
 		
 		rsort(random([0, data.length - 1]));
 		//rsort(0);
 	}
 	addPhotos();
+//Get modal
 
 function getModal(){
-	var modal = document.getElementById('myModal');
+	var modal = document.getElementById('myModal0');
 	var img = document.getElementsByClassName('photo_center');
 
 	img.onclick = function(){
@@ -338,7 +371,6 @@ function getModal(){
 	}
 }
 getModal();
-
 	//6.计算左右分区的范围
 	function range(){
 		var range = {left:{ x:[], y:[]}, right:{ x:[], y:[]}};
@@ -401,6 +433,30 @@ getModal();
 
 		photo_center = photos.splice(n,1)[0];
 			
+		//添加back style 
+		// var photo_cente = g('#photo_' + n);
+		// photo_cente.className += ' photo_cente';
+
+		// photo_cente = photos.splice(n,1)[0];
+		// var _photo = g('.photo');//存储所有海报内容
+		// var photos = [];
+
+		// for(s = 0; s < _photo.length; s++){
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_center\s*/, ' ');//把所有的元素中原有的photo_center样式用空格替换，也就是删除它。
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_front\s*/, ' ');
+		// 	_photo[s].className = _photo[s].className.replace(/\s*photo_back\s*/, ' ');
+			
+		// 	_photo[s].className += ' photo_front';
+
+		// 	_photo[s].style.left = '';
+		// 	_photo[s].style.top = '';
+			
+
+		// 	_photo[s].style['-webkit-transform'] = 'rotate(0deg)';
+
+		// 	photos.push(_photo[s]);
+		// }
+
 		//分左右区域
 		var photos_left = photos.splice(0, Math.ceil(photos.length/2));
 		var photos_right = photos;
